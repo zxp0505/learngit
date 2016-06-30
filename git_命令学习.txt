@@ -1,4 +1,7 @@
-﻿1、创建版本库
+﻿//学习地址
+http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000
+
+1、创建版本库
 //初始化一个仓库
 $ mkdir learngit
 $ cd learngit
@@ -60,4 +63,78 @@ $ ssh-keygen -t rsa -C "youremail@example.com"
 
 此后，每次本地提交后，只要有必要，就可以使用命令git push origin master推送最新修改；
 
+10 .从远程库克隆
+
+$ git clone git@github.com:michaelliao/gitskills.git
+
+11. 创建并合并分支
+
+首先，我们创建dev分支，然后切换到dev分支：
+
+$ git checkout -b dev
+Switched to a new branch 'dev'
+git checkout命令加上-b参数表示创建并切换，相当于以下两条命令：
+
+$ git branch dev
+$ git checkout dev
+Switched to branch 'dev'
+然后，用git branch命令查看当前分支：
+
+$ git branch
+* dev
+  master
+git branch命令会列出所有分支，当前分支前面会标一个*号。
+
+然后，我们就可以在dev分支上正常提交，比如对readme.txt做个修改，加上一行：
+
+Creating a new branch is quick.
+然后提交：
+
+$ git add readme.txt 
+$ git commit -m "branch test"
+[dev fec145a] branch test
+ 1 file changed, 1 insertion(+)
+现在，dev分支的工作完成，我们就可以切换回master分支：
+
+$ git checkout master
+Switched to branch 'master'
+切换回master分支后，再查看一个readme.txt文件，刚才添加的内容不见了！因为那个提交是在dev分支上，而master分支此刻的提交点并没有变：
+
+现在，我们把dev分支的工作成果合并到master分支上：
+
+$ git merge dev
+Updating d17efd8..fec145a
+Fast-forward
+ readme.txt |    1 +
+ 1 file changed, 1 insertion(+)
+
+
+//删除分支
+$ git branch -d dev
+Deleted branch dev (was fec145a).
+
+
+Git鼓励大量使用分支：
+
+查看分支：git branch
+
+创建分支：git branch <name>
+
+切换分支：git checkout <name>
+
+创建+切换分支：git checkout -b <name>
+
+合并某分支到当前分支：git merge <name>
+
+删除分支：git branch -d <name>
+
+11.解决冲突  用git log --graph命令可以看到分支合并图。
+
+12.修复bug时，我们会通过创建新的bug分支进行修复，然后合并，最后删除；
+
+当手头工作没有完成时，先把工作现场git stash一下，然后去修复bug，修复后，再git stash pop，回到工作现场。
+
+13.开发一个新feature，最好新建一个分支；
+
+如果要丢弃一个没有被合并过的分支，可以通过git branch -D <name>强行删除。eg:git branch -D feature-vulcan
 
